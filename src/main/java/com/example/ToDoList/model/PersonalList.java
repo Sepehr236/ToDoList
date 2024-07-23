@@ -4,12 +4,12 @@ import jakarta.persistence.Entity;
 import lombok.*;
 
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @Entity
-public class WorkList extends ToDoList{
-    private final String category = "Work";
+public class PersonalList extends ToDoList{
+    private final String category = "Personal";
 
     @Setter
     private String marginDate;
