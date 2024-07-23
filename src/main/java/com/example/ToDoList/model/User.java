@@ -3,6 +3,8 @@ package com.example.ToDoList.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Table(name = "users")
 @Getter
 @Setter
@@ -18,6 +20,9 @@ public class User {
     private String password;
     private String gmail;
     private String phoneNumber;
+
+    @OneToMany
+    private List<ToDoList> toDoLists;
 
     @Version
     private Long version;

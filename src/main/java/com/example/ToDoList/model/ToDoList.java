@@ -3,6 +3,8 @@ package com.example.ToDoList.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -14,8 +16,9 @@ public class ToDoList {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String startingDate;
-    private String txt;
-    private Boolean checked = false;
+
+    @OneToMany
+    private List<ActionToDo> actionsToDo;
 
     @Version
     private Long version;
