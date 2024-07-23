@@ -1,6 +1,7 @@
 package com.example.ToDoList.service;
 
 import com.example.ToDoList.dto.LogInRequest;
+import com.example.ToDoList.dto.UpdateUserRequest;
 import com.example.ToDoList.exeption.IncorrectPassword;
 import com.example.ToDoList.exeption.ResourceNotFound;
 import com.example.ToDoList.model.User;
@@ -37,5 +38,22 @@ public class UserService {
                 throw IncorrectPassword.instance("Password is incorrect !!!");
             }
         }
+    }
+
+    public User updateUser(UpdateUserRequest updateUserRequest){
+        User user = userRepository.findByName(updateUserRequest.getName());
+        if(user == null){
+            throw ResourceNotFound.instance("User notfound!!!");
+        }else{
+            if(!Objects.equals(user.getPassword(), updateUserRequest.getPassword())){
+                throw IncorrectPassword.instance("Password is incorrect !!!");
+            }
+        }
+        user.setName(updateUserRequest.getUpdatedName());
+        user.setGmail(updateUserRequest.getGmail());
+        user.setPassword(updateUserRequest.getUpdatedPassword());
+        user.setPhoneNumber(updateUserRequest.getPhoneNumber());
+
+        return userRepository.save(user);
     }
 }
