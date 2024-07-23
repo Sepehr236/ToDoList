@@ -15,7 +15,7 @@ public class ToDoList {
     private Long id;
     private String startingDate;
     private String txt;
-    private Boolean checked;
+    private Boolean checked = false;
 
     @Version
     private Long version;
