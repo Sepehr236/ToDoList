@@ -11,7 +11,7 @@ import lombok.*;
 @Builder
 @Entity
 public class WorkList extends ToDoList{
-    private String category;
+    private final String category = "Work";
 
     @Setter
     private String marginDate;
