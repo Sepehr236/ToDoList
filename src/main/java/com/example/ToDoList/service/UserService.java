@@ -16,6 +16,8 @@ import java.util.Objects;
 @Transactional
 @RequiredArgsConstructor
 public class UserService {
+    private Boolean logIn = false;
+    private User logInUser;
     private final UserRepository userRepository;
 
     public User signIn(User user){
@@ -33,6 +35,8 @@ public class UserService {
             throw ResourceNotFound.instance("User notfound!!!");
         }else{
             if(Objects.equals(user.getPassword(), logInRequest.getPassword())){
+                logIn = true;
+                logInUser = user;
                 return user;
             }else{
                 throw IncorrectPassword.instance("Password is incorrect !!!");
@@ -40,19 +44,15 @@ public class UserService {
         }
     }
 
-    public User updateUser(UpdateUserRequest updateUserRequest){
-        User user = userRepository.findByName(updateUserRequest.getName());
-        if(user == null){
-            throw ResourceNotFound.instance("User notfound!!!");
+    public User updateUser(User user){
+        if(logIn){
+            logInUser.setName(user.getName());
+            logInUser.setGmail(user.getGmail());
+            logInUser.setPhoneNumber(user.getPhoneNumber());
+            logInUser.setPassword(user.getPassword());
         }else{
-            if(!Objects.equals(user.getPassword(), updateUserRequest.getPassword())){
-                throw IncorrectPassword.instance("Password is incorrect !!!");
-            }
+            throw ResourceNotFound.instance("You have to log in first");
         }
-        user.setName(updateUserRequest.getUpdatedName());
-        user.setGmail(updateUserRequest.getGmail());
-        user.setPassword(updateUserRequest.getUpdatedPassword());
-        user.setPhoneNumber(updateUserRequest.getPhoneNumber());
 
         return userRepository.save(user);
     }
